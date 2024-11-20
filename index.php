@@ -3,9 +3,7 @@ $request = $_SERVER['REQUEST_URI'];
 $request = str_replace('/aayush/form-generator', '', $request);
 require './config.php';
 $arr = explode('/', $request);
-// echo '<pre>';
-// print_r($arr);
-// echo '</pre>';
+
 $routePath = $arr[1];
 $id;
 if (isset($arr[2])) {
