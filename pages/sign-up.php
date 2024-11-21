@@ -87,30 +87,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </body>
-
-
-<!-- <script src="../js/script.js"></script> -->
-<!-- <script>
-    async function submitForm(event) {
-        const formData = {};
-        const form = document.getElementById('registerForm'); // Get the form by ID
-        const inputs = form.elements;
-
-        for (let i = 0; i < script inputs.length; i++) {
-            const input = inputs[i];
-            if (input.name) {
-                formData[input.name] = input.value;
-            }
-        }
-        event.innerHTML =
-            `<span class="flex items-center gap-2"><span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Please Wait...</span>`;
-        const registerFetch = await customFetch(formData, 'auth/register', 'POST');
-        if (registerFetch.success) {
-            window.location.href = window.location.origin + '/aayush/form-generator/auth/login.php';
-        } else {
-            event.innerHTML = `Register`;
-        }
-    }
-</script> -->
-
 </html>

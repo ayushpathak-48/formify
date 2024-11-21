@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2024 at 08:07 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Nov 21, 2024 at 04:37 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -46,9 +46,12 @@ CREATE TABLE `fields` (
 INSERT INTO `fields` (`id`, `field_type`, `is_required`, `label`, `placeholder`, `form_id`, `is_active`, `default_value`, `options`) VALUES
 (1, 'dropdown', 1, 'Select Dropdown', 'placeholder', '5', '1', '', '1,2,3,4,5,6'),
 (3, 'input', 1, 'Name', 'Enter name here', '5', '1', '', ''),
-(4, 'input', 0, 'asdsa', 'sadas', '5', '1', 'ssdsdd', ''),
-(5, 'dropdown', 1, 'a', 'b', '5', '1', 'd', 'c,d,e'),
-(6, 'input', 1, 'z f g', 'z f g', '5', '1', 'thus', '');
+(7, 'textarea', 1, 'Textarea label', 'Textarea placeholder', '5', '1', '', ''),
+(8, 'number', 1, 'Phone number', 'Enter phone number', '5', '1', '', ''),
+(9, 'date', 0, 'Date', 'Enter Date', '5', '1', '', ''),
+(10, 'url', 1, 'Enter URL', 'placeholder', '5', '1', '', ''),
+(11, 'dropdown', 1, 'Dropdown', 'Select Fruit', '5', '1', '', 'Mango,Banana,Apple,Orange'),
+(13, 'radio', 1, 'Radio Label', 'This is radio button', '5', '1', '', 'Male,Female,Value');
 
 -- --------------------------------------------------------
 
@@ -82,18 +85,21 @@ INSERT INTO `forms` (`id`, `user_id`, `title`, `description`, `created_at`, `upd
 
 CREATE TABLE `responses` (
   `id` int(11) NOT NULL,
-  `form_id` varchar(255) NOT NULL
+  `form_id` varchar(255) NOT NULL,
+  `field_id` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `responses`
 --
 
-INSERT INTO `responses` (`id`, `form_id`) VALUES
-(1, '5'),
-(2, '5'),
-(3, '5'),
-(4, '5');
+INSERT INTO `responses` (`id`, `form_id`, `field_id`, `value`) VALUES
+(5, '5', '3', 'Aayush'),
+(6, '5', '7', 'Textarea'),
+(7, '5', '8', '1234567890'),
+(8, '5', '10', 'https://google.com'),
+(9, '5', '13', 'on');
 
 -- --------------------------------------------------------
 
@@ -154,7 +160,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `fields`
 --
 ALTER TABLE `fields`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `forms`
@@ -166,7 +172,7 @@ ALTER TABLE `forms`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

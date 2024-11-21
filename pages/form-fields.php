@@ -34,14 +34,17 @@ $count = mysqli_num_rows($res);
                 <th scope="col" class="px-6 py-3">
                     Placeholder
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
+                <th scope="col" class="px-6 py-3">
                     Default Value
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
+                <th scope="col" class="px-6 py-3">
                     Active
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
+                <th scope="col" class="px-6 py-3">
                     Required
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Actions
                 </th>
             </tr>
         </thead>
@@ -75,7 +78,9 @@ $count = mysqli_num_rows($res);
                     </td>
                     <td class="px-6 py-4 text-right gap-3 flex items-center justify-end">
                         <a href="<?php echo BASE_URL ?>/edit-form-field/<?php echo $row['id'] ?>"
-                            class="font-medium text-blue-600 hover:underline">Edit</a>
+                            class="font-medium text-blue-600 hover:underline"><button class="border-0 bg-indigo-500 rounded-md px-4 p-1 text-white no-underline">Edit</button></a>
+                        <a href="<?php echo BASE_URL ?>/delete-field/<?php echo $row['id'] ?>"
+                            class="font-medium text-blue-600 hover:underline"><button class="border-0 bg-indigo-500 rounded-md px-4 p-1 text-white no-underline">Delete</button></a>
                     </td>
                 </tr>
 

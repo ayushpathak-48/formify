@@ -1,7 +1,7 @@
 <?php
-$request = $_SERVER['REQUEST_URI'];
-$request = str_replace('/aayush/form-generator', '', $request);
 require './config.php';
+$request = $_SERVER['REQUEST_URI'];
+$request = str_replace(BASE_URL, '', $request);
 $arr = explode('/', $request);
 
 $routePath = $arr[1];
@@ -46,11 +46,22 @@ switch ($routePath) {
         break;
 
     case ('edit-form'):
-
         if (isset($id)) {
             $form_id = $id;
         }
         include('./pages/edit-form.php');
+        break;
+    case ('delete-form'):
+        if (isset($id)) {
+            $form_id = $id;
+        }
+        include('./pages/edit-form.php');
+        break;
+    case ('delete-field'):
+        if (isset($id)) {
+            $field_id = $id;
+        }
+        include('./pages/delete-field.php');
         break;
 
     case ('form-fields'):
