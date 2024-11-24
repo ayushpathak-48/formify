@@ -1,7 +1,6 @@
 <?php
 $user_id = $_SESSION['user_id'];
-// $query = "SELECT * from forms where user_id = $user_id";
-$query = "SELECT  forms.*,  COUNT(responses.id) AS response_count FROM forms LEFT JOIN responses ON forms.id = responses.form_id WHERE forms.user_id = $user_id GROUP BY forms.id";
+$query = "SELECT  forms.*,  COUNT(responses.form_id) AS response_count FROM forms LEFT JOIN responses ON forms.id = responses.form_id WHERE forms.user_id = $user_id GROUP BY forms.id";
 $res = mysqli_query($con, $query);
 $count = mysqli_num_rows($res);
 
@@ -44,40 +43,37 @@ $count = mysqli_num_rows($res);
             while (
                 $row = mysqli_fetch_assoc($res)
             ) {
-                // echo '<pre>';
-                // print_r($row);
-                // echo '</pre>';
             ?>
-                <tr class="bg-white border-b">
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+            <tr class="bg-white border-b">
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
 
-                        <?php echo $row['title'] ?>
-                    </td>
-                    <td class="px-6 py-4">
-                        <?php echo $row['response_count'] ?>
-                    </td>
-                    <td class="px-6 py-4">
-                        <?php echo $row['response_count'] ?>
-                    </td>
-                    <td class="px-6 py-4 text-right gap-3 flex items-center justify-end">
-                        <a class="font-medium text-blue-600 hover:underline"
-                            href="<?php echo BASE_URL ?>/form-fields/<?php echo $row['id'] ?>">
-                            Fields</a>
-                        <a href="<?php echo BASE_URL ?>/edit-form/<?php echo $row['id'] ?>"
-                            class="font-medium text-blue-600 hover:underline">Edit</a>
-                    </td>
-                </tr>
+                    <?php echo $row['title'] ?>
+                </td>
+                <td class="px-6 py-4">
+                    <?php echo $row['response_count'] ?>
+                </td>
+                <td class="px-6 py-4">
+                    <?php echo $row['response_count'] ?>
+                </td>
+                <td class="px-6 py-4 text-right gap-3 flex items-center justify-end">
+                    <a class="font-medium text-blue-600 hover:underline"
+                        href="<?php echo BASE_URL ?>/form-fields/<?php echo $row['id'] ?>">
+                        Fields</a>
+                    <a href="<?php echo BASE_URL ?>/edit-form/<?php echo $row['id'] ?>"
+                        class="font-medium text-blue-600 hover:underline">Edit</a>
+                </td>
+            </tr>
 
             <?php
             }
 
             if ($count == 0) {
             ?>
-                <tr class="bg-white border-b">
-                    <td colspan="6" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                        No Forms Found
-                    </td>
-                </tr>
+            <tr class="bg-white border-b">
+                <td colspan="6" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                    No Forms Found
+                </td>
+            </tr>
             <?php
             }
             ?>

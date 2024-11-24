@@ -5,5 +5,5 @@ if (!$con) {
     die();
 }
 
-define('BASE_URL', '/aayush/formify');
+define('BASE_URL', '/aayush/form-generator');
 define('ROOT_PATH', __DIR__ . '/');

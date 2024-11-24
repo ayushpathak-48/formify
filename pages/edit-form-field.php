@@ -16,6 +16,7 @@ $row = mysqli_fetch_assoc($res);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = '';
     $options = [];
+
     foreach ($_POST as $key => $value) {
         if (str_contains($key, 'option')) {
             array_push($options, $value);
@@ -50,9 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = 'Failed to update field';
     }
 }
-// echo '<pre>';
-// print_r($row);
-// echo '</pre>';
+
 ?>
 <div>
     <div class="text-2xl font-semibold mx-auto w-max">Update Field</div>
@@ -101,46 +100,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 items-end" id="options_box_wrapper" style="display: none;">
+            <?php if (in_array($row['field_type'], ['dropdown', 'radio', 'checkbox'])) {
+                $options = explode(',', $row['options']);
+            ?>
+            <div class="grid grid-cols-2 gap-4 items-end" id="options_box_wrapper">
                 <div class="colspan-2 gap-2 flex flex-col" id="options_box">
+                    <?php
+                        foreach ($options as $key => $value) {
+                        ?>
+                    <div class="option-item">
+                        <label for="option_<?php echo $key + 1 ?>" class="block mb-1 text-sm">Option</label>
+                        <input type="text" id="option_<?php echo $key + 1 ?>" name="option_<?php echo $key + 1 ?>"
+                            placeholder="Enter Option"
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            oninput="updateDefaultValue()" value="<?php echo $value ?>" />
+                        <button type="button" class="text-xs text-gray-500 italic"
+                            onclick="removeOption(this)">Remove</button>
+                    </div>
+                    <?php
+                        }
+                        ?>
                 </div>
                 <button
                     class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#11131e] text-white hover:bg-[#11131e]/90 h-10 px-4 py-2 w-full"
                     type="button" onclick="addNewOption()">Add Option</button>
             </div>
+            <?php } ?>
 
             <div id="default_value_wrapper">
                 <?php if (in_array($row['field_type'], ['dropdown', 'radio', 'checkbox'])) {
                     $options = explode(',', $row['options']);
                 ?>
-                    <label for="default_value" class="block mb-2 text-sm font-medium text-gray-900">
-                        Default Value</label>
-                    <select id="default_value" name="default_value"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="">
-                        <option>
-                            Select Default Option
-                        </option>
-                        <?php
-
+                <label for="default_value" class="block mb-2 text-sm font-medium text-gray-900">
+                    Default Value</label>
+                <select id="default_value" name="default_value"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <?php
                         foreach ($options as $key => $value) {
                         ?>
-                            <option value='<?php echo $value ?>'
-                                <?php echo $row['default_value'] == $value ? 'selected' : '' ?>>
-                                <?php echo $value ?></option>
-                        <?php
+                    <option value='<?php echo $value ?>'
+                        <?php echo $row['default_value'] == $value ? 'selected' : '' ?>>
+                        <?php echo $value ?>
+                    </option>
+                    <?php
                         }
                         ?>
-                    </select>
+                </select>
                 <?php } else {
                 ?>
-                    <label
-                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        for="default_value">Default Value</label>
-                    <input type="default_value"
-                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        id="default_value" name="default_value" value="<?php echo $row['default_value'] ?>"
-                        placeholder="Enter Default Value">
+                <label
+                    class=" text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    for="default_value">Default Value</label>
+                <input type="default_value"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    id="default_value" name="default_value" value="<?php echo $row['default_value'] ?>"
+                    placeholder="Enter Default Value">
                 <?php
                 } ?>
             </div>
@@ -173,97 +187,65 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 <script>
-    const defaultValueWrapper = document.getElementById('default_value_wrapper');
-    const optionsBoxWrapper = document.getElementById('options_box_wrapper');
-    const optionsBox = document.getElementById('options_box');
-    const optionBoxNames = [];
-    const dropDownDefaultValueHTML = `<label for="default_value" class="block mb-2 text-sm font-medium text-gray-900">
-                    Default Value</label>
-                <select id="default_value" name="default_value"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="">
-                    <option selected value="">Select Default Option</option>
-                </select>`;
+const optionsBoxWrapper = document.getElementById("options_box_wrapper");
+const optionsBox = document.getElementById("options_box");
+const defaultValueWrapper = document.getElementById("default_value_wrapper");
 
-    const inputDefaultValueHTML = `<label
-                        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        for="default_value">Default Value</label>
-                    <input type="default_value"
-                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        id="default_value" name="default_value" placeholder="Enter Default Value">`;
+const inputDefaultValueHTML = `
+  <label class="text-sm font-medium" for="default_value">Default Value</label>
+  <input type="text" id="default_value" name="default_value" placeholder="Enter Default Value" class="form-input" />`;
 
-    function handleFieldTypeChange(e) {
-        if (['dropdown', 'radio', 'checkbox'].includes(e.value)) {
-            optionsBoxWrapper.style.display = 'grid';
-            defaultValueWrapper.style.display = 'block';
-            const optionDiv = getOptionDiv();
-            optionsBox.appendChild(optionDiv);
-            defaultValueWrapper.innerHTML = '';
-        } else {
-            optionsBoxWrapper.style.display = 'none';
-            defaultValueWrapper.innerHTML = inputDefaultValueHTML;
-            optionsBox.innerHTML = '';
-        }
+const dropDownDefaultValueHTML = `
+  <label for="default_value" class="block mb-2 text-sm font-medium">Default Value</label>
+  <select id="default_value" name="default_value" class="form-select">
+    <option value="" selected>Select Default Option</option>
+  </select>`;
+
+function handleFieldTypeChange(e) {
+    const fieldType = e.value;
+    if (["dropdown", "radio", "checkbox"].includes(fieldType)) {
+        optionsBoxWrapper.style.display = "grid";
+        defaultValueWrapper.innerHTML = dropDownDefaultValueHTML;
+    } else {
+        optionsBoxWrapper.style.display = "none";
+        defaultValueWrapper.innerHTML = inputDefaultValueHTML;
+        optionsBox.innerHTML = "";
     }
+}
 
-    function addNewOption() {
-        const optionDiv = getOptionDiv();
-        optionsBox.appendChild(optionDiv);
-        if (defaultValueWrapper.innerHTML.trim() == '') {
-            defaultValueWrapper.innerHTML = dropDownDefaultValueHTML;
-        }
-        const optionValues = [];
-        const defaultValueDropdown = document.getElementById('default_value');
-        defaultValueDropdown.innerHTML = ``;
-        handleAddDropdownDefaultValue('Select Default Option', 'Select Default Option')
-        optionBoxNames.forEach((option) => {
-            const value = document.getElementById(option).value;
-            if (value.trim() != '') {
-                handleAddDropdownDefaultValue(value, option);
+function addNewOption() {
+    const optionId = `option_${Date.now()}`;
+    const optionDiv = document.createElement("div");
+    optionDiv.innerHTML = `
+    <div class="option-item">
+      <label for="${optionId}" class="block mb-1 text-sm">Option</label>
+      <input type="text" id="${optionId}" name="${optionId}" placeholder="Enter Option" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" oninput="updateDefaultValue()" />
+      <button type="button" class="text-xs text-gray-500 italic" onclick="removeOption(this)">Remove</button>
+    </div>`;
+    optionsBox.appendChild(optionDiv);
+
+    updateDefaultValue();
+}
+
+function removeOption(button) {
+    button.closest(".option-item").remove();
+    updateDefaultValue();
+}
+
+function updateDefaultValue() {
+    const options = optionsBox.querySelectorAll("input");
+    const defaultValueDropdown = document.getElementById("default_value");
+
+    if (defaultValueDropdown.tagName === "SELECT") {
+        defaultValueDropdown.innerHTML = `<option value="" selected>Select Default Option</option>`;
+        options.forEach((input) => {
+            if (input.value.trim() !== "") {
+                const option = document.createElement("option");
+                option.value = input.value;
+                option.textContent = input.value;
+                defaultValueDropdown.appendChild(option);
             }
         });
-
     }
-
-    function getOptionDiv() {
-        const option_name = `option_${Date.now()}`;
-        optionBoxNames.push(option_name);
-        const optionDiv = document.createElement('div');
-        optionDiv.innerHTML = `
-            <div>
-                        <label
-                            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            for="${option_name}">Option ${optionBoxNames?.length}</label>
-                        <input type="option"
-                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            id="${option_name}" name="${option_name}" placeholder="Enter Option" required onkeyup="handleOptionChange('${option_name}',this.value)">
-                    </div>
-                            `;
-
-        return optionDiv;
-
-    }
-
-    function handleOptionChange(option_name, value) {
-        if (defaultValueWrapper.innerHTML.trim() == '') {
-            defaultValueWrapper.innerHTML = dropDownDefaultValueHTML;
-        }
-        const singleDefaultOption = document.getElementById(`default_value_${option_name}`);
-        if (singleDefaultOption) {
-            singleDefaultOption.value = value || '';
-            singleDefaultOption.innerHTML = value || '';
-        } else {
-            handleAddDropdownDefaultValue(value, option_name);
-        }
-    }
-
-    function handleAddDropdownDefaultValue(value, option) {
-        const defaultValueDropdown = document.querySelector('#default_value');
-        const optionElement = document.createElement('option');
-        optionElement.setAttribute('id', `default_value_${option}`);
-        optionElement.value = value == 'Select Default Option' ? '' : value;
-        optionElement.selected = false;
-        optionElement.innerHTML = value;
-        defaultValueDropdown.appendChild(optionElement);
-        console.log(defaultValueDropdown)
-    }
+}
 </script>
