@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2024 at 04:37 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Nov 24, 2024 at 09:02 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,14 +44,15 @@ CREATE TABLE `fields` (
 --
 
 INSERT INTO `fields` (`id`, `field_type`, `is_required`, `label`, `placeholder`, `form_id`, `is_active`, `default_value`, `options`) VALUES
-(1, 'dropdown', 1, 'Select Dropdown', 'placeholder', '5', '1', '', '1,2,3,4,5,6'),
-(3, 'input', 1, 'Name', 'Enter name here', '5', '1', '', ''),
-(7, 'textarea', 1, 'Textarea label', 'Textarea placeholder', '5', '1', '', ''),
-(8, 'number', 1, 'Phone number', 'Enter phone number', '5', '1', '', ''),
-(9, 'date', 0, 'Date', 'Enter Date', '5', '1', '', ''),
-(10, 'url', 1, 'Enter URL', 'placeholder', '5', '1', '', ''),
-(11, 'dropdown', 1, 'Dropdown', 'Select Fruit', '5', '1', '', 'Mango,Banana,Apple,Orange'),
-(13, 'radio', 1, 'Radio Label', 'This is radio button', '5', '1', '', 'Male,Female,Value');
+(14, 'input', 1, 'Input field', 'enter text here', '5', '1', '', ''),
+(15, 'textarea', 1, 'textarea', 'this is textarea', '5', '1', '', ''),
+(16, 'number', 1, 'Number', 'enter here', '5', '1', '', ''),
+(17, 'password', 1, 'password', 'enter here', '5', '1', '', ''),
+(18, 'date', 1, 'Date', 'enter here', '5', '1', '', ''),
+(19, 'url', 1, 'URl', 'enter text here', '5', '1', '', ''),
+(20, 'dropdown', 1, 'dropdown', 'this is dropdown', '5', '1', '', 'option 1,option 2,option 3,option 4'),
+(21, 'radio', 1, 'Gender', 'select gender', '5', '1', '', 'Male,Female,Other'),
+(22, 'checkbox', 1, 'checkbox label', 'aa', '5', '1', 'Checkbox option 3', 'Checkbox option 1,Checkbox option 2,Checkbox option 3,Checkbox option 4');
 
 -- --------------------------------------------------------
 
@@ -75,7 +76,8 @@ CREATE TABLE `forms` (
 INSERT INTO `forms` (`id`, `user_id`, `title`, `description`, `created_at`, `updated_at`) VALUES
 (5, 10, 'aa', 'aa', '2024-11-01 14:39:01', '2024-11-01 14:39:01'),
 (6, 10, 'aa', 'aa', '2024-11-01 14:39:10', '2024-11-01 14:39:10'),
-(7, 10, 'aa', 'aa', '2024-11-01 14:39:26', '2024-11-01 14:39:26');
+(7, 10, 'aa', 'aa', '2024-11-01 14:39:26', '2024-11-01 14:39:26'),
+(8, 10, 'Hello form', 'this is form description', '2024-11-16 15:40:22', '2024-11-16 15:40:22');
 
 -- --------------------------------------------------------
 
@@ -87,19 +89,17 @@ CREATE TABLE `responses` (
   `id` int(11) NOT NULL,
   `form_id` varchar(255) NOT NULL,
   `field_id` varchar(255) NOT NULL,
-  `value` varchar(255) NOT NULL
+  `response_values` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`response_values`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `responses`
 --
 
-INSERT INTO `responses` (`id`, `form_id`, `field_id`, `value`) VALUES
-(5, '5', '3', 'Aayush'),
-(6, '5', '7', 'Textarea'),
-(7, '5', '8', '1234567890'),
-(8, '5', '10', 'https://google.com'),
-(9, '5', '13', 'on');
+INSERT INTO `responses` (`id`, `form_id`, `field_id`, `response_values`) VALUES
+(21, '5', '22_checkbox_2', '{\"14\":\"input field\",\"15\":\"this is textarea\",\"16\":\"123456\",\"17\":\"this is password\",\"18\":\"2024-11-07\",\"19\":\"https://google.com\",\"20\":\"option 4\",\"21\":\"Female\",\"22\":\"Checkbox option 3\"}'),
+(22, '5', '22_checkbox_2', '{\"14\":\"input field\",\"15\":\"this is textarea\",\"16\":\"123456\",\"17\":\"this is password\",\"18\":\"2024-11-07\",\"19\":\"https://google.com\",\"20\":\"option 4\",\"21\":\"Female\",\"22\":\"Checkbox option 3\"}'),
+(23, '5', '22_checkbox_2', '{\"14\":\"input field\",\"15\":\"this is textarea\",\"16\":\"123456\",\"17\":\"this is password\",\"18\":\"2024-11-07\",\"19\":\"https://google.com\",\"20\":\"option 4\",\"21\":\"Female\",\"22\":\"Checkbox option 3\"}');
 
 -- --------------------------------------------------------
 
@@ -160,19 +160,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `fields`
 --
 ALTER TABLE `fields`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `forms`
 --
 ALTER TABLE `forms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `users`
