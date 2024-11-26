@@ -67,6 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sqltoInsert = "INSERT into responses (`form_id`,`field_id`,`response_values`) VALUES ('$form_id','$key','$values')";
         $insertResult = mysqli_query($con, $sqltoInsert);
         $_SESSION['form_submitted_' . $form_id] = true;
+        header("Refresh: 0");
+        exit();
     }
 }
 ?>
@@ -199,8 +201,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <?php } else {
         ?>
-
-        <div>Form already submitted</div>
+        <div class="flex h-screen items-center justify-center">
+        <div class="border-2 border-blue-500 rounded-lg p-5 text-xl font-semibold text-center">
+            Form already submitted
+            <div class="text-gray-500 text-sm font-normal">You had already submitted the form </div>
+        </div>
+        </div>
         <?php
     } ?>
     </div>

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2024 at 09:02 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Nov 26, 2024 at 06:13 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -98,8 +98,7 @@ CREATE TABLE `responses` (
 
 INSERT INTO `responses` (`id`, `form_id`, `field_id`, `response_values`) VALUES
 (21, '5', '22_checkbox_2', '{\"14\":\"input field\",\"15\":\"this is textarea\",\"16\":\"123456\",\"17\":\"this is password\",\"18\":\"2024-11-07\",\"19\":\"https://google.com\",\"20\":\"option 4\",\"21\":\"Female\",\"22\":\"Checkbox option 3\"}'),
-(22, '5', '22_checkbox_2', '{\"14\":\"input field\",\"15\":\"this is textarea\",\"16\":\"123456\",\"17\":\"this is password\",\"18\":\"2024-11-07\",\"19\":\"https://google.com\",\"20\":\"option 4\",\"21\":\"Female\",\"22\":\"Checkbox option 3\"}'),
-(23, '5', '22_checkbox_2', '{\"14\":\"input field\",\"15\":\"this is textarea\",\"16\":\"123456\",\"17\":\"this is password\",\"18\":\"2024-11-07\",\"19\":\"https://google.com\",\"20\":\"option 4\",\"21\":\"Female\",\"22\":\"Checkbox option 3\"}');
+(24, '5', '22_checkbox_3', '{\"14\":\"Hello\",\"15\":\"hello textarea\",\"16\":\"123\",\"17\":\"password\",\"18\":\"2024-11-22\",\"19\":\"https://google.com\",\"20\":\"option 2\",\"21\":\"Male\",\"22_checkbox_3\":\"Checkbox option 4\",\"22\":\"Checkbox option 3,Checkbox option 4\"}');
 
 -- --------------------------------------------------------
 
@@ -172,7 +171,7 @@ ALTER TABLE `forms`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `users`

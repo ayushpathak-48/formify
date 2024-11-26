@@ -56,11 +56,14 @@ $count = mysqli_num_rows($res);
                     <?php echo $row['response_count'] ?>
                 </td>
                 <td class="px-6 py-4 text-right gap-3 flex items-center justify-end">
-                    <a class="font-medium text-blue-600 hover:underline"
+                    <a class="font-medium text-blue-600 hover:underline border border-blue-500 px-2 p-1 rounded-md hover:no-underline"
+                        href="<?php echo BASE_URL ?>/responses/<?php echo $row['id'] ?>">
+                        Responses</a>
+                    <a class="font-medium text-blue-600 hover:underline border border-blue-500 px-2 p-1 rounded-md hover:no-underline"
                         href="<?php echo BASE_URL ?>/form-fields/<?php echo $row['id'] ?>">
                         Fields</a>
                     <a href="<?php echo BASE_URL ?>/edit-form/<?php echo $row['id'] ?>"
-                        class="font-medium text-blue-600 hover:underline">Edit</a>
+                        class="font-medium text-blue-600 hover:underline border border-blue-500 px-2 p-1 rounded-md hover:no-underline">Edit</a>
                 </td>
             </tr>
 
