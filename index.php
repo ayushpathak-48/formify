@@ -33,15 +33,20 @@ switch ($request) {
 include('./components/header.php');
 switch ($routePath) {
     case '':
-        include('./pages/home.php');
-        break;
-
-    case 'all-forms':
         include('./pages/all-forms.php');
         break;
 
+
     case 'create-form':
         include('./pages/create-form.php');
+        break;
+
+    case 'about':
+        include('./pages/about.php');
+        break;
+
+    case 'profile':
+        include('./pages/profile.php');
         break;
 
     case ('edit-form'):
@@ -54,7 +59,7 @@ switch ($routePath) {
         if (isset($id)) {
             $form_id = $id;
         }
-        include('./pages/edit-form.php');
+        include('./pages/delete-form.php');
         break;
     case ('delete-field'):
         if (isset($id)) {

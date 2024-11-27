@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "insert into forms (`user_id`,`title`,`description`) values ('$user_id','$title','$description')";
     $res = mysqli_query($con, $sql);
     if ($res) {
-        header("Location: " . BASE_URL . "/all-forms");
+        header("Location: " . BASE_URL . "/");
     }
 }
 ?>

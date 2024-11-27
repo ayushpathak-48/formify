@@ -1,6 +1,6 @@
 <?php
 if (!$form_id) {
-    header("Location: " . BASE_URL . "/all-forms");
+    header("Location: " . BASE_URL . "/");
     exit();
 }
 $sql = "SELECT * from fields where form_id = $form_id";
@@ -54,7 +54,7 @@ $count = mysqli_num_rows($res);
             while (
                 $row = mysqli_fetch_assoc($res)
             ) {
-            ?>
+                ?>
                 <tr class="bg-white border-b">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         <?php echo $row['field_type'] ?>
@@ -78,23 +78,32 @@ $count = mysqli_num_rows($res);
                     </td>
                     <td class="px-6 py-4 text-right gap-3 flex items-center justify-end">
                         <a href="<?php echo BASE_URL ?>/edit-form-field/<?php echo $row['id'] ?>"
-                            class="font-medium text-blue-600 hover:underline"><button class="border-0 bg-indigo-500 rounded-md px-4 p-1 text-white no-underline">Edit</button></a>
-                        <a href="<?php echo BASE_URL ?>/delete-field/<?php echo $row['id'] ?>"
-                            class="font-medium text-blue-600 hover:underline"><button class="border-0 bg-indigo-500 rounded-md px-4 p-1 text-white no-underline">Delete</button></a>
+                            class="font-medium text-blue-600 hover:underline"><button
+                                class="border-0 bg-indigo-500 rounded-md px-4 p-1 text-white no-underline">Edit</button></a>
+                        <button onclick="deleteField(<?php echo $row['id'] ?>)"
+                            class="font-medium text-red-600 hover:underline border border-red-500 px-2 p-1 rounded-md hover:no-underline">Delete</button>
                     </td>
                 </tr>
 
-            <?php
+                <?php
             }
             if ($count == 0) {
-            ?>
+                ?>
                 <tr class="bg-white border-b">
                     <td colspan="6" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap text-center">No Fields
                         Found</td>
                 </tr>
-            <?php
+                <?php
             }
             ?>
         </tbody>
     </table>
 </div>
+
+<script>
+    function deleteField(id) {
+        if (confirm('Are you sure you want to delete the field')) {
+            window.location.href = `${window.location.origin}<?php echo BASE_URL ?>/delete-field/${id}`;
+        }
+    }
+</script>

@@ -1,13 +1,11 @@
 <?php
-if (!$field_id) {
-    header("Location: " . BASE_URL . "/all-forms");
+if (!$form_id) {
+    header("Location: " . BASE_URL . "/");
     exit();
 }
-$sql = "DELETE from forms where id = $field_id";
+$sql = "DELETE from forms where id = $form_id";
 $res = mysqli_query($con, $sql);
 if ($res) {
-    header("Location: " . BASE_URL . "/all-forms");
+    header("Location: " . BASE_URL . "/");
 }
-
-$row = mysqli_fetch_assoc($res);
 ?>

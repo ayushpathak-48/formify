@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php if (!$isFormSubmitted) { ?>
     <div class="absolute inset-0 bg-gray-100  overflow-y-scroll h-screen w-full">
         <div class="w-full max-w-[600px] flex-col  px-4 gap-4 flex items-center py-10 justify-start mx-auto">
-            <div class="w-full border-t-4 border-rose-950 border border-l-4 bg-white rounded-md px-4 py-5">
+            <div class="w-full border-t-4 border-purple-600 border border-l-4 bg-white rounded-md px-4 py-5">
                 <div class="text-2xl font-semibold"><?php echo $form['title'] ?></div>
                 <div class="text-lg font-normal"><?php echo $form['description'] ?></div>
             </div>

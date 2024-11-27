@@ -1,15 +1,26 @@
 <?php
 if (!$form_id) {
-    header("Location: " . BASE_URL . "/all-forms");
+    header("Location: " . BASE_URL . "/");
     exit();
 }
 $sql = "SELECT * from forms where id = $form_id";
 $res = mysqli_query($con, $sql);
 if (mysqli_num_rows($res) == 0) {
-    header("Location: " . BASE_URL . "/all-forms");
+    header("Location: " . BASE_URL . "/");
 }
 
 $row = mysqli_fetch_assoc($res);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+
+    $formUpdateQuery = "UPDATE forms set title='$title',description='$description' where id='$form_id'";
+    $formUpdateRes = mysqli_query($con, $formUpdateQuery);
+    if ($formUpdateRes) {
+        header("location:" . BASE_URL . "/");
+    }
+}
 ?>
 <div>
     <div class="text-2xl font-semibold mx-auto w-max">Edit Form</div>
